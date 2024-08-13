@@ -20,14 +20,14 @@ namespace Assignment4.Services
 
         public int BorrowBook(int userId, List<int> bookId)
         {
-            var userLibrary = _userRepository.GetUserById(userId);
-            if (userLibrary == null)
+            var userBorrow = _userRepository.GetUserById(userId);
+            if (userBorrow == null)
             {
                 throw new Exception("User Tidak Ada");
             }
 
-            var bookLibrary = bookId.Select(Id => _bookRepository.GetBookById(userId)).Where(book => book != null).ToList();
-            if (bookLibrary.Count != bookId.Count)
+            var bookBorrow = bookId.Select(Id => _bookRepository.GetBookById(userId)).Where(book => book != null).ToList();
+            if (bookBorrow.Count != bookId.Count)
             {
                 throw new Exception("buku tidak tersedia");
             }
@@ -38,7 +38,7 @@ namespace Assignment4.Services
                 UserId = userId,
                 TanggalPinjam = new DateOnly(),
                 TanggalKembali = new DateOnly(),
-                borrowedBooks = new List<Book>()
+                borrowedBooks = bookBorrow
             };
             _peminjamans.Add(borrowBook);
             return borrowBook.Id;
